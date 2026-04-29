@@ -1,0 +1,776 @@
+# laxgolf.github.io
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Official Lacrosse Golf Rankings</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #1a472a;
+    --green-mid: #2d6a4f;
+    --green-light: #52b788;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --cream: #f5f0e8;
+    --dark: #0d1f12;
+    --card-bg: #111f16;
+    --card-border: #1e3a27;
+    --red: #c0392b;
+    --rise: #52b788;
+    --drop: #e05a4e;
+    --text-muted: #7a9e87;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--dark);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(ellipse at 20% 0%, rgba(82,183,136,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 100%, rgba(201,168,76,0.06) 0%, transparent 50%);
+  }
+
+  /* NAV */
+  nav {
+    background: rgba(13,31,18,0.95);
+    border-bottom: 1px solid var(--card-border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    letter-spacing: 2px;
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .nav-logo span { font-size: 1.2rem; }
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--cream); }
+  .nav-cta {
+    background: var(--gold);
+    color: var(--dark);
+    border: none;
+    padding: 8px 18px;
+    border-radius: 4px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.8rem;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+  }
+
+  /* TICKER */
+  .ticker {
+    background: var(--green);
+    padding: 6px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    font-weight: 500;
+    color: var(--gold-light);
+  }
+  .ticker-inner {
+    display: inline-block;
+    animation: ticker 30s linear infinite;
+  }
+  @keyframes ticker {
+    0% { transform: translateX(100vw); }
+    100% { transform: translateX(-100%); }
+  }
+
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 3rem 1rem 2rem;
+    position: relative;
+  }
+  .hero-eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--green-light);
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+  }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 8vw, 6rem);
+    letter-spacing: 4px;
+    line-height: 0.95;
+    color: var(--cream);
+    margin-bottom: 0.5rem;
+  }
+  .hero h1 span { color: var(--gold); }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(82,183,136,0.15);
+    border: 1px solid rgba(82,183,136,0.3);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--green-light);
+    margin-bottom: 1rem;
+    letter-spacing: 0.5px;
+  }
+  .hero-sub {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    max-width: 420px;
+    margin: 0 auto 1.5rem;
+    line-height: 1.6;
+  }
+  .verified-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+  }
+
+  /* BREAKING */
+  .breaking-wrapper {
+    max-width: 680px;
+    margin: 0 auto 2.5rem;
+    padding: 0 1rem;
+  }
+  .breaking {
+    background: linear-gradient(135deg, #1a2f1e, #0f1f13);
+    border: 1px solid var(--gold);
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+  }
+  .breaking::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--green-light), var(--gold));
+  }
+  .breaking-tag {
+    background: var(--gold);
+    color: var(--dark);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 4px 10px;
+    display: inline-block;
+    margin: 1.25rem 1.25rem 0.75rem;
+    border-radius: 2px;
+  }
+  .breaking h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    letter-spacing: 2px;
+    padding: 0 1.25rem 1rem;
+    color: var(--cream);
+    line-height: 1.15;
+  }
+  .breaking-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+    filter: saturate(0.8) brightness(0.9);
+  }
+  .breaking-img-placeholder {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(135deg, var(--green-mid), var(--dark));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+  }
+  .breaking-body {
+    padding: 1rem 1.25rem 1.25rem;
+    font-size: 0.85rem;
+    line-height: 1.65;
+    color: #b5cfc0;
+  }
+  .breaking-body strong { color: var(--gold-light); }
+
+  /* MOVERS */
+  .movers-wrapper {
+    max-width: 680px;
+    margin: 0 auto 2.5rem;
+    padding: 0 1rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .movers-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    padding: 1rem;
+  }
+  .movers-title {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .movers-title.rise { color: var(--rise); }
+  .movers-title.drop { color: var(--drop); }
+  .mover-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.85rem;
+  }
+  .mover-row:last-child { border-bottom: none; }
+  .mover-rank { color: var(--text-muted); width: 28px; font-size: 0.78rem; }
+  .mover-name { font-weight: 500; flex: 1; }
+  .delta {
+    font-size: 0.72rem;
+    font-weight: 600;
+    border-radius: 10px;
+    padding: 2px 8px;
+  }
+  .delta.up { background: rgba(82,183,136,0.15); color: var(--rise); }
+  .delta.down { background: rgba(224,90,78,0.15); color: var(--drop); }
+
+  /* RANKINGS */
+  .rankings-section {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 1rem 4rem;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 3px;
+    color: var(--cream);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--card-border);
+  }
+
+  .rank-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    padding: 0.9rem 1rem;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, transform 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+  .rank-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: transparent;
+    transition: background 0.2s;
+  }
+  .rank-card:hover {
+    border-color: rgba(82,183,136,0.4);
+    background: #141f18;
+    transform: translateX(3px);
+  }
+  .rank-card:hover::before { background: var(--green-light); }
+
+  .rank-card.top1 { border-color: var(--gold); background: linear-gradient(135deg, #1c2a14, #111f16); }
+  .rank-card.top1::before { background: var(--gold); }
+  .rank-card.top2 { border-color: rgba(192,192,192,0.4); }
+  .rank-card.top2::before { background: #c0c0c0; }
+  .rank-card.top3 { border-color: rgba(205,127,50,0.4); }
+  .rank-card.top3::before { background: #cd7f32; }
+
+  .rank-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 1px;
+    width: 36px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .rank-num.gold { color: var(--gold); }
+  .rank-num.silver { color: #c0c0c0; }
+  .rank-num.bronze { color: #cd7f32; }
+  .rank-num.normal { color: var(--text-muted); }
+
+  .rank-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--dark);
+    letter-spacing: 0;
+  }
+
+  .rank-info { flex: 1; min-width: 0; }
+  .rank-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--cream);
+    margin-bottom: 1px;
+  }
+  .rank-title {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .rank-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .rank-arrow {
+    color: var(--card-border);
+    font-size: 1rem;
+    transition: color 0.2s;
+  }
+  .rank-card:hover .rank-arrow { color: var(--text-muted); }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s;
+    backdrop-filter: blur(4px);
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    max-width: 480px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    transform: translateY(20px);
+    transition: transform 0.25s;
+    position: relative;
+  }
+  .modal-overlay.open .modal { transform: translateY(0); }
+  .modal-header {
+    padding: 1.5rem 1.5rem 1rem;
+    border-bottom: 1px solid var(--card-border);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    position: sticky;
+    top: 0;
+    background: var(--card-bg);
+    z-index: 1;
+  }
+  .modal-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--dark);
+    flex-shrink: 0;
+  }
+  .modal-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 2px;
+    color: var(--cream);
+    line-height: 1;
+  }
+  .modal-rank-title { font-size: 0.8rem; color: var(--text-muted); margin-top: 3px; }
+  .modal-close {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.3rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px;
+    transition: color 0.2s;
+  }
+  .modal-close:hover { color: var(--cream); }
+  .modal-body { padding: 1.25rem 1.5rem 1.5rem; }
+  .modal-stat-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  .modal-stat {
+    flex: 1;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--card-border);
+    border-radius: 6px;
+    padding: 0.75rem;
+    text-align: center;
+  }
+  .modal-stat-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    color: var(--gold);
+    letter-spacing: 1px;
+  }
+  .modal-stat-label { font-size: 0.68rem; color: var(--text-muted); margin-top: 2px; letter-spacing: 0.5px; }
+  .modal-bio-title {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--green-light);
+    margin-bottom: 0.6rem;
+  }
+  .modal-bio {
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: #b5cfc0;
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    border-top: 1px solid var(--card-border);
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--dark); }
+  ::-webkit-scrollbar-thumb { background: var(--card-border); border-radius: 3px; }
+
+  @media (max-width: 520px) {
+    .movers-wrapper { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo"><span>⛳</span> LGR</div>
+  <ul class="nav-links">
+    <li><a href="#">Rankings</a></li>
+    <li><a href="#">Stats</a></li>
+    <li><a href="#">Rules</a></li>
+    <li><a href="#">History</a></li>
+    <li><a href="#">Community</a></li>
+  </ul>
+  <button class="nav-cta">Join the Tour</button>
+</nav>
+
+<div class="ticker">
+  <span class="ticker-inner">
+    🏒 ARJUN CLINCHES #1 WITH BACK-TO-BACK BIRDIES ON THE LAXFIELD &nbsp;&nbsp;&nbsp; ⛳ LUCAS DROPS TO #2 AFTER SHANKING THE 18TH HOLE CREASE SHOT &nbsp;&nbsp;&nbsp; 🥍 WEEKLY UPDATED RANKINGS — VERIFIED BY THE INTL. LACROSSE GOLF ASSOCIATION &nbsp;&nbsp;&nbsp; 🏆 BILLY RISES 3 SPOTS WITH DOMINANT MIDFIELD PUTTING DISPLAY &nbsp;&nbsp;&nbsp; 🔥 NEXT TOURNAMENT: CREASE CUP INVITATIONAL &nbsp;&nbsp;&nbsp;
+  </span>
+</div>
+
+<div class="hero">
+  <p class="hero-eyebrow">Official Power Rankings</p>
+  <h1>Lacrosse Golf<br><span>Rankings</span></h1>
+  <div style="margin-bottom:0.75rem">
+    <span class="badge">🔄 Weekly Updated</span>
+  </div>
+  <p class="hero-sub">Weekly-updated rankings of the most dominant players in the Lacrosse Golf verse.</p>
+  <div class="verified-tag">✅ Verified & Confirmed by the International Lacrosse Golf Association</div>
+</div>
+
+<!-- BREAKING NEWS -->
+<div class="breaking-wrapper">
+  <div class="breaking">
+    <div class="breaking-tag">🔥 BREAKING NEWS 🔥</div>
+    <h2>ARJUN GOES FULL SEND ON THE CREASE, DRAINS A 40-FOOT LAXPUTT TO SECURE THE #1 SPOT!!!</h2>
+    <div class="breaking-img-placeholder">🥍⛳</div>
+    <div class="breaking-body">
+      Arjun cemented his legacy as the <strong>undisputed #1</strong> in Lacrosse Golf after delivering an absolutely unhinged performance on the back nine. Using a <strong>modified attack head</strong> fitted to a 7-iron shaft, he read the crease angle perfectly and drained a 40-footer that left spectators speechless. His <strong>shot placement, pipe accuracy, and crease vision</strong> are operating at a level no one else in the field can touch right now. The consensus is clear: Arjun is <strong>the #1 Ranked Lacrosse Golfer</strong>.
+    </div>
+  </div>
+</div>
+
+<!-- MOVERS -->
+<div class="movers-wrapper">
+  <div class="movers-card">
+    <div class="movers-title rise">📈 Biggest Risers</div>
+    <div class="mover-row">
+      <span class="mover-rank">#4</span>
+      <span class="mover-name">Billy</span>
+      <span class="delta up">↑ +3</span>
+    </div>
+    <div class="mover-row">
+      <span class="mover-rank">#8</span>
+      <span class="mover-name">Apg</span>
+      <span class="delta up">↑ +4</span>
+    </div>
+  </div>
+  <div class="movers-card">
+    <div class="movers-title drop">📉 Biggest Drops</div>
+    <div class="mover-row">
+      <span class="mover-rank">#6</span>
+      <span class="mover-name">Kavin</span>
+      <span class="delta down">↓ -3</span>
+    </div>
+    <div class="mover-row">
+      <span class="mover-rank">#11</span>
+      <span class="mover-name">Owen G</span>
+      <span class="delta down">↓ -2</span>
+    </div>
+  </div>
+</div>
+
+<!-- FULL RANKINGS -->
+<div class="rankings-section">
+  <div class="section-title">🏆 Full Rankings</div>
+  <div id="rankList"></div>
+</div>
+
+<footer>
+  © 2026 Official Lacrosse Golf Rankings &nbsp;·&nbsp; Powered by the ILGA &nbsp;·&nbsp; All rights reserved
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModalBtn()">✕</button>
+    <div class="modal-header">
+      <div class="modal-avatar" id="modalAvatar"></div>
+      <div>
+        <div class="modal-name" id="modalName"></div>
+        <div class="modal-rank-title" id="modalRankTitle"></div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-stat-row">
+        <div class="modal-stat">
+          <div class="modal-stat-val" id="modalRankNum"></div>
+          <div class="modal-stat-label">CURRENT RANK</div>
+        </div>
+        <div class="modal-stat">
+          <div class="modal-stat-val" id="modalDelta"></div>
+          <div class="modal-stat-label">WEEKLY CHANGE</div>
+        </div>
+        <div class="modal-stat">
+          <div class="modal-stat-val" id="modalScore"></div>
+          <div class="modal-stat-label">CREASE RATING</div>
+        </div>
+      </div>
+      <div class="modal-bio-title">Player Bio</div>
+      <div class="modal-bio" id="modalBio"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const colors = [
+  '#c9a84c','#8ecae6','#52b788','#e76f51','#a8dadc',
+  '#e9c46a','#f4a261','#6a994e','#e07a5f','#3d405b','#81b29a','#f2cc8f'
+];
+
+const players = [
+  {
+    name: "Arjun", title: "The Crease Phantom",
+    delta: "+1", score: "99.1",
+    deltaVal: 1,
+    bio: "Arjun is the undeniable apex of the Lacrosse Golf world. His ability to read the crease angle before anyone else even sees the lie is preternatural. He trained by hitting laxputts off a modified mesh pocket for six months straight, and it shows. The man simply does not miss on the back nine. Some say his pipe accuracy borders on supernatural. Arjun doesn't just win — he makes everyone else look like they're still figuring out which end of the stick to hold."
+  },
+  {
+    name: "Lucas", title: "The Long Pole General",
+    delta: "+1", score: "97.4",
+    deltaVal: 1,
+    bio: "Lucas built his game on range. Armed with a long pole fitted to a 3-wood shaft, he out-distances the field on every par-4 crease hole. His strategy is relentless pressure — he's never met a fairway he couldn't dominate. Lucas fell to #2 only because Arjun had one of those legendary days. On any other week, Lucas runs this leaderboard. His composure under pressure is unmatched, and his bird's-eye read of the field is what separates him from mere mortals."
+  },
+  {
+    name: "Javier", title: "The Silky Finesse",
+    delta: "—", score: "95.0",
+    deltaVal: 0,
+    bio: "Javier plays lacrosse golf like it's performance art. Every shot is deliberate, every swing is choreographed. He uses a custom pinch-faced wedge head that produces a spin no one else in the circuit can replicate. His short crease game is the stuff of legend — coaches at the ILGA have literally put his tape in slow motion just to understand what he's doing. Javier doesn't overpower the course, he outsmarts it. A truly elite technician."
+  },
+  {
+    name: "Billy", title: "The Midfield Menace",
+    delta: "+3", score: "91.8",
+    deltaVal: 3,
+    bio: "Billy came out of nowhere this week with a midfield putting display that left the gallery speechless. He's a grinder — plays with a chip on his shoulder and a mouthguard he never takes off, even during the putting stroke. Billy rose three spots this week after absolutely shredding the midfield bunkers with a scoop-to-chip combo no one saw coming. He's raw, explosive, and increasingly dangerous. The rest of the field should be worried."
+  },
+  {
+    name: "Kavin", title: "The Calculated Sniper",
+    delta: "-3", score: "89.2",
+    deltaVal: -3,
+    bio: "Kavin is a precision machine — on a good day. This week wasn't a good day. His trademark calculated sniper approach broke down on the back nine when he misread a triple-crease lie and sent three shots wide right. Despite the drop, the talent is undeniable. Kavin charts every shot, studies wind patterns across the laxfield, and keeps a notebook of opponent tendencies. He'll be back — the bounce-back potential is elite."
+  },
+  {
+    name: "Caleb", title: "The Smooth Operator",
+    delta: "+1", score: "87.5",
+    deltaVal: 1,
+    bio: "Caleb just makes it look easy. He's got the most fluid swing in the circuit — a natural hybrid of a lacrosse release and a half-iron follow-through that coaches can't teach. He doesn't talk much, doesn't celebrate much, just puts the ball in the pipe and moves on. Caleb's consistency is his superpower. He's never had a catastrophic round, and in a field of volatile laxgolfers, that's priceless."
+  },
+  {
+    name: "Nathan", title: "The Field General",
+    delta: "—", score: "85.1",
+    deltaVal: 0,
+    bio: "Nathan sees the laxcourse like a chess board. He's the one player in the field who can manage a round even when his mechanics aren't clicking. His situational IQ is off the charts — he knows when to attack the crease and when to lay up, when to go top-pipe and when to settle for the wide. Nathan is the kind of player who makes his teammates (and tournament opponents) better just by being on the field."
+  },
+  {
+    name: "Apg", title: "The Dark Horse",
+    delta: "+4", score: "83.7",
+    deltaVal: 4,
+    bio: "Nobody saw Apg coming this week. He came in ranked 12th and left at 8th, the biggest riser in the field. His back-to-basics approach — simple stick, no frills, pure fundamentals — caught everyone off guard. Apg doesn't have the flashiest technique but he's got something money can't buy: pure competitive will. He wants every single point. Watch this spot — Apg is trending in a serious direction and the top half of the leaderboard is on notice."
+  },
+  {
+    name: "Nikolas", title: "The European Technique",
+    delta: "+2", score: "81.0",
+    deltaVal: 2,
+    bio: "Nikolas brings an Old World flair to the laxcourse. Trained in European lacrosse fundamentals before discovering the sport of lacrosse golf, he applies a remarkably clean contact approach to every drive. His release point is a full 15 milliseconds later than anyone else in the field, creating a unique angle that consistently finds the high pipe. Nikolas is methodical, elegant, and climbing."
+  },
+  {
+    name: "Leopold", title: "The Iron Giant",
+    delta: "-1", score: "78.6",
+    deltaVal: -1,
+    bio: "Leopold is the most physically imposing presence on the laxcourse. He drives the ball farther than anyone in the field — sometimes dangerously far. His struggles come on the finesse holes where raw power isn't enough. Leopold is working on his short crease game with a private instructor, and when that clicks, the leaderboard will feel it. For now, he's a top-10 lock who is genuinely terrifying to compete against on the long holes."
+  },
+  {
+    name: "Owen S", title: "The Quiet Storm",
+    delta: "+1", score: "76.3",
+    deltaVal: 1,
+    bio: "Owen S. doesn't say much, but his scorecard speaks volumes. He's one of the most underrated players in the field — somehow always near the top without getting the recognition he deserves. His read of the crease is subtle and deceptive. Opponents consistently underestimate him, and he consistently makes them pay. Owen S. is the definition of a quiet storm: calm on the outside, ruthless on the scorecard."
+  },
+  {
+    name: "Owen G", title: "The Comeback Kid",
+    delta: "-2", score: "73.9",
+    deltaVal: -2,
+    bio: "Owen G. had a tough week — a double-bogey on the crease-bunker hole and a lip-out on 17 cost him dearly. But Owen G. has been here before. He's the most resilient player in the circuit, having come back from a #18 ranking to crack the top 10 earlier this season. The jaw-drop moments are still in there. He just needs to string two clean rounds together, and the ranking jump will be dramatic. Don't sleep on Owen G."
+  }
+];
+
+function getInitials(name) {
+  const parts = name.split(' ');
+  return parts.length > 1 ? parts[0][0] + parts[1][0] : name.slice(0,2).toUpperCase();
+}
+
+function getCardClass(i) {
+  if (i === 0) return 'rank-card top1';
+  if (i === 1) return 'rank-card top2';
+  if (i === 2) return 'rank-card top3';
+  return 'rank-card';
+}
+
+function getRankNumClass(i) {
+  if (i === 0) return 'rank-num gold';
+  if (i === 1) return 'rank-num silver';
+  if (i === 2) return 'rank-num bronze';
+  return 'rank-num normal';
+}
+
+function getDeltaHtml(delta, val) {
+  if (val > 0) return `<span class="delta up">↑ ${delta}</span>`;
+  if (val < 0) return `<span class="delta down">↓ ${delta}</span>`;
+  return `<span class="delta" style="background:rgba(255,255,255,0.05);color:#7a9e87">—</span>`;
+}
+
+const list = document.getElementById('rankList');
+players.forEach((p, i) => {
+  const color = colors[i % colors.length];
+  const initials = getInitials(p.name);
+  const card = document.createElement('div');
+  card.className = getCardClass(i);
+  card.innerHTML = `
+    <div class="${getRankNumClass(i)}">${i+1}</div>
+    <div class="rank-avatar" style="background:${color}">${initials}</div>
+    <div class="rank-info">
+      <div class="rank-name">${p.name}</div>
+      <div class="rank-title">${p.title}</div>
+    </div>
+    <div class="rank-right">
+      ${getDeltaHtml(p.delta, p.deltaVal)}
+      <span class="rank-arrow">›</span>
+    </div>
+  `;
+  card.addEventListener('click', () => openModal(p, i, color));
+  list.appendChild(card);
+});
+
+function openModal(p, i, color) {
+  document.getElementById('modalAvatar').style.background = color;
+  document.getElementById('modalAvatar').textContent = getInitials(p.name);
+  document.getElementById('modalName').textContent = p.name;
+  document.getElementById('modalRankTitle').textContent = p.title;
+  document.getElementById('modalRankNum').textContent = `#${i+1}`;
+  document.getElementById('modalDelta').textContent = p.deltaVal > 0 ? `↑${p.delta}` : p.deltaVal < 0 ? `↓${p.delta}` : '—';
+  document.getElementById('modalDelta').style.color = p.deltaVal > 0 ? 'var(--rise)' : p.deltaVal < 0 ? 'var(--drop)' : 'var(--text-muted)';
+  document.getElementById('modalScore').textContent = p.score;
+  document.getElementById('modalBio').textContent = p.bio;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modalOverlay')) {
+    document.getElementById('modalOverlay').classList.remove('open');
+  }
+}
+function closeModalBtn() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+</script>
+</body>
+</html>
